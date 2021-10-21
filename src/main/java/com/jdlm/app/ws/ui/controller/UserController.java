@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jdlm.app.ws.exceptions.UserServiceException;
 import com.jdlm.app.ws.ui.model.request.UpdateUserDetailsRequestModel;
 import com.jdlm.app.ws.ui.model.request.UserDetailsRequestModel;
 
@@ -39,10 +40,14 @@ public class UserController {
 
 	public ResponseEntity<UserDetailsRequestModel> getUser(@PathVariable String userId) {
 
+//		if (true) {
+//			throw new UserServiceException("This userID is not exists " + userId);	
+//		}
+		
 		if (users.containsKey(userId)) {
 			return new ResponseEntity<>(users.get(userId), HttpStatus.OK);
 		} else {
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);		
 
 		}
 
@@ -84,7 +89,7 @@ public class UserController {
 		return storedUserDetails;
 	}
 
-	@DeleteMapping(path="/{id}")
+	@DeleteMapping(path = "/{id}")
 	public ResponseEntity<Void> deleteUser(@PathVariable String id) {
 		users.remove(id);
 		return ResponseEntity.noContent().build();
